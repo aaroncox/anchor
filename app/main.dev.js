@@ -52,8 +52,10 @@ const createTray = () => {
   tray = new Tray(path.join(assetsDirectory, 'icon.png'));
   tray.on('click', (event) => {
     toggleWindow();
-    if (menu.isVisible() && process.defaultApp && event.metaKey) {
-      menu.openDevTools({ mode: 'detach' });
+    if (menu.isVisible() && process.defaultApp && event.ctrlKey) {
+      if (!menu.webContents.isDevToolsOpened()) {
+        menu.openDevTools({ mode: 'detach' });
+      }
     }
   });
 };
