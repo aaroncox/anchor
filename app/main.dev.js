@@ -1,6 +1,6 @@
 /* eslint global-require: 0, flowtype-errors/show-errors: 0 */
 
-import { app, BrowserWindow, Tray } from 'electron';
+import { app, BrowserWindow, Menu, Tray } from 'electron';
 
 const path = require('path');
 
@@ -57,6 +57,17 @@ const createTray = () => {
         menu.openDevTools({ mode: 'detach' });
       }
     }
+  });
+  tray.on('right-click', () => {
+    const contextMenu = Menu.buildFromTemplate([
+      {
+        label: 'Quit',
+        click: () => {
+          app.quit();
+        }
+      }
+    ]);
+    tray.popUpContextMenu(contextMenu);
   });
 };
 
