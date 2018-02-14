@@ -2,17 +2,28 @@
 import React, { Component } from 'react';
 import { Button, Header, Segment } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
+
+const electron = require('electron');
+
+const { remote } = electron;
 
 type Props = {};
 
-export default class extends Component<Props> {
+class TrayMenu extends Component<Props> {
   props: Props;
 
   close = () => {
     window.close();
   }
 
+  openManager = () => {
+    console.log(remote.getGlobal('showManager'))
+    remote.getGlobal('showManager')()
+  }
+
   render() {
+    console.log(this.props)
     return (
       <div>
         <Segment
@@ -26,7 +37,9 @@ export default class extends Component<Props> {
           </Header>
         </Segment>
         <Segment attached>
-          menu stuff
+          <Button onClick={this.openManager}>
+            Management
+          </Button>
         </Segment>
         <Segment
           attached="bottom"
@@ -40,3 +53,5 @@ export default class extends Component<Props> {
     );
   }
 }
+
+export default withRouter(TrayMenu)

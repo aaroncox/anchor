@@ -8,6 +8,7 @@ const assetsDirectory = path.join(__dirname, 'assets');
 
 let tray = null;
 let menu = null;
+let manager = null;
 
 app.dock.hide();
 
@@ -85,12 +86,36 @@ const createMenu = () => {
     }
   });
 
-  menu.loadURL(`file://${path.join(__dirname, 'menu.html')}`);
+  menu.loadURL(`file://${path.join(__dirname, 'index.html#/')}`);
 
   menu.on('blur', () => {
     if (!menu.webContents.isDevToolsOpened()) {
       menu.hide();
     }
+  });
+};
+
+const createManager = () => {
+  manager = new BrowserWindow({
+    width: 960,
+    height: 540,
+    show: false,
+    frame: false,
+    fullscreenable: false,
+    resizable: false,
+    transparent: true,
+    alwaysOnTop: true
+  });
+
+  manager.loadURL(`file://${path.join(__dirname, 'index.html#/manager')}`);
+
+  manager.webContents.on('did-finish-load', () => {
+    manager.show();
+    manager.focus();
+  });
+
+  manager.on('close', () => {
+    manager = null;
   });
 };
 
@@ -118,10 +143,20 @@ const showWindow = () => {
   menu.focus();
 };
 
+const showManager = () => {
+  if (!manager) {
+    createManager();
+  }
+  if (menu.isVisible()) {
+    menu.hide();
+  }
+};
 
 const devToolsLog = (s) => {
   console.log(s);
   if (menu && menu.webContents) {
     menu.webContents.executeJavaScript(`console.log("${s}")`);
   }
-}
+};
+
+global.showManager = showManager;

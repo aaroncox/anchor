@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import TrayMenuContainer from '../../components/TrayMenu/Container';
+import TrayMenu from '../components/TrayMenu';
 
 type Props = {};
 
@@ -9,7 +9,7 @@ export default class extends Component<Props> {
 
   render() {
     return (
-      <TrayMenuContainer />
+      <TrayMenu />
     );
   }
 }

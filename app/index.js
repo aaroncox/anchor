@@ -1,27 +1,28 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
-import TrayMenu from './containers/TrayMenu';
+import Root from './containers/Root';
 import { configureStore, history } from './store/configureStore';
 import './app.global.css';
 
 const store = configureStore();
+const doc = document.getElementById('root');
 
 render(
   <AppContainer>
-    <TrayMenu store={store} history={history} />
+    <Root store={store} history={history} />
   </AppContainer>,
-  document.getElementById('tray-menu')
+  doc
 );
 
 if (module.hot) {
-  module.hot.accept('./containers/TrayMenu', () => {
-    const NextRoot = require('./containers/TrayMenu'); // eslint-disable-line global-require
+  module.hot.accept('./containers/Root', () => {
+    const NextRoot = require('./containers/Root'); // eslint-disable-line global-require
     render(
       <AppContainer>
         <NextRoot store={store} history={history} />
       </AppContainer>,
-      document.getElementById('tray-menu')
+      doc
     );
   });
 }
