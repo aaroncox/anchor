@@ -7,14 +7,17 @@ import {
 } from 'react-router-dom';
 
 import App from './containers/App';
-import Tray from './containers/Tray';
+
+import Anchor from './containers/Anchor';
 import Manager from './containers/Manager';
+import Tray from './containers/Tray';
 
 export default () => (
   <App>
     <HashRouter>
       <Switch>
         <Route exact path="/" component={Tray} />
+        <Route path="/anchor" component={Anchor} />
         <Route path="/manager" component={Manager} />
       </Switch>
     </HashRouter>
