@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import { Button, Header, Segment } from 'semantic-ui-react';
+import { Button, Form, Header, Segment } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 
@@ -14,16 +14,27 @@ class TrayMenu extends Component<Props> {
   props: Props;
 
   close = () => {
-    window.close();
+    electron.remote.app.quit();
   }
 
   openManager = () => {
-    console.log(remote.getGlobal('showManager'))
     remote.getGlobal('showManager')()
   }
 
   render() {
-    console.log(this.props)
+    const accounts = [
+      {
+        key: 'jesta',
+        text: '@jesta',
+        value: 'jesta',
+        active: true
+      },
+      {
+        key: 'aaron',
+        text: '@aaron',
+        value: 'aaron'
+      }
+    ];
     return (
       <div>
         <Segment
@@ -37,8 +48,21 @@ class TrayMenu extends Component<Props> {
           </Header>
         </Segment>
         <Segment attached>
+          <Form>
+            <Form.Select
+              fluid
+              label="Default Account"
+              options={accounts}
+              placeholder="@jesta"
+            />
+          </Form>
+        </Segment>
+        <Segment attached>
           <Button onClick={this.openManager}>
-            Management
+            Test Manager
+          </Button>
+          <Button onClick={this.openAnchor}>
+            Test Anchor
           </Button>
         </Segment>
         <Segment

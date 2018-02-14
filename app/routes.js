@@ -17,7 +17,7 @@ export default () => (
     <HashRouter>
       <Switch>
         <Route exact path="/" component={Tray} />
-        <Route path="/anchor" component={Anchor} />
+        <Route path="/anchor/:ops/:meta" component={Anchor} />
         <Route path="/manager" component={Manager} />
       </Switch>
     </HashRouter>

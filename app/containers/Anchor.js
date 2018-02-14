@@ -1,5 +1,6 @@
 // @flow
 import React, { Component } from 'react';
+import Anchor from '../components/Anchor';
 
 type Props = {};
 
@@ -8,7 +9,7 @@ export default class extends Component<Props> {
 
   render() {
     return (
-      <div>Anchor</div>
+      <Anchor />
     );
   }
 }
