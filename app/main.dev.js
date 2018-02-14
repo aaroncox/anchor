@@ -9,6 +9,7 @@ const assetsDirectory = path.join(__dirname, 'assets');
 let tray = null;
 let menu = null;
 let manager = null;
+let anchor = null;
 
 app.dock.hide();
 
@@ -45,8 +46,9 @@ app.on('ready', async () => {
   createMenu();
 });
 
-app.on('window-all-closed', () => {
-  app.quit();
+app.setAsDefaultProtocolClient('steem');
+app.on('open-url', (event, url) => {
+  createAnchor(url);
 });
 
 const createTray = () => {
@@ -116,6 +118,52 @@ const createManager = () => {
 
   manager.on('close', () => {
     manager = null;
+  });
+};
+
+const createAnchor = (url = false) => {
+  anchor = new BrowserWindow({
+    width: 640,
+    height: 395,
+    center: true,
+    show: false,
+    frame: false,
+    fullscreenable: false,
+    resizable: false,
+    transparent: false,
+    alwaysOnTop: true
+  });
+
+  let ops = false;
+  let meta = false;
+
+  if (url) {
+    const parse = require('url-parse');
+    const parsed = parse(url, true);
+    if (parsed.host === 'sign') {
+      const opsExp = /\/tx\/((?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?)/;
+      const opsMatch = opsExp.exec(parsed.pathname);
+      if (opsMatch[1]) {
+        ops = opsMatch[1];
+      }
+      const metaExp = /^#((?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?)$/;
+      const metaMatch = metaExp.exec(parsed.hash);
+      if (metaMatch[1]) {
+        meta = metaMatch[1];
+      }
+    }
+    if (ops && meta) {
+      anchor.loadURL(`file://${path.join(__dirname, 'index.html')}#/anchor/${ops}/${meta}`);
+    }
+  }
+
+  anchor.webContents.on('did-finish-load', () => {
+    anchor.show();
+    anchor.focus();
+  });
+
+  anchor.on('close', () => {
+    anchor = null;
   });
 };
 
