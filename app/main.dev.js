@@ -106,3 +106,11 @@ const showWindow = () => {
   menu.show();
   menu.focus();
 };
+
+
+const devToolsLog = (s) => {
+  console.log(s);
+  if (menu && menu.webContents) {
+    menu.webContents.executeJavaScript(`console.log("${s}")`);
+  }
+}
