@@ -88,7 +88,7 @@ const createMenu = () => {
     }
   });
 
-  menu.loadURL(`file://${path.join(__dirname, 'index.html#/')}`);
+  menu.loadURL(`file://${path.join(__dirname, 'index.html')}#/`);
 
   menu.on('blur', () => {
     if (!menu.webContents.isDevToolsOpened()) {
@@ -109,7 +109,7 @@ const createManager = () => {
     alwaysOnTop: true
   });
 
-  manager.loadURL(`file://${path.join(__dirname, 'index.html#/manager')}`);
+  manager.loadURL(`file://${path.join(__dirname, 'index.html')}#/manager`);
 
   manager.webContents.on('did-finish-load', () => {
     manager.show();
