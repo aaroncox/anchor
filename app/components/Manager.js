@@ -15,10 +15,10 @@ class Manager extends Component<Props> {
 
   render() {
     return (
-      <I18n ns='manager'>
+      <I18n ns="manager">
         {
           (t) => (
-            <div style={{margin: '2px'}}>
+            <div style={{ margin: '2px' }}>
               <Segment
                 attached="top"
                 color="blue"

@@ -1,8 +1,8 @@
 // @flow
+
 import React, { Component } from 'react';
 import { I18n } from 'react-i18next';
 import { Button, Form, Header, Segment } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 
 const electron = require('electron');
@@ -10,6 +10,20 @@ const electron = require('electron');
 const { remote } = electron;
 
 type Props = {};
+
+const accounts = [
+  {
+    key: 'jesta',
+    text: '@jesta',
+    value: 'jesta',
+    active: true
+  },
+  {
+    key: 'aaron',
+    text: '@aaron',
+    value: 'aaron'
+  }
+];
 
 class TrayMenu extends Component<Props> {
   props: Props;
@@ -19,25 +33,13 @@ class TrayMenu extends Component<Props> {
   }
 
   openManager = () => {
-    remote.getGlobal('showManager')()
+    const showManager = remote.getGlobal('showManager');
+    showManager();
   }
 
   render() {
-    const accounts = [
-      {
-        key: 'jesta',
-        text: '@jesta',
-        value: 'jesta',
-        active: true
-      },
-      {
-        key: 'aaron',
-        text: '@aaron',
-        value: 'aaron'
-      }
-    ];
     return (
-      <I18n ns='tray'>
+      <I18n ns="tray">
         {
           (t) => (
             <div>
@@ -85,4 +87,4 @@ class TrayMenu extends Component<Props> {
   }
 }
 
-export default withRouter(TrayMenu)
+export default withRouter(TrayMenu);

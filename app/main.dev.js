@@ -91,6 +91,7 @@ const createTray = () => {
     if (menu.isVisible() && process.defaultApp && event.ctrlKey) {
       if (!menu.webContents.isDevToolsOpened()) {
         menu.openDevTools({ mode: 'detach' });
+        devToolsLog('Anchor > Tray Menu > DevTools');
       }
     }
   });
@@ -177,12 +178,12 @@ const createAnchor = (url = false) => {
       const opsExp = /\/tx\/((?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?)/;
       const opsMatch = opsExp.exec(parsed.pathname);
       if (opsMatch[1]) {
-        ops = opsMatch[1];
+        [, ops] = opsMatch;
       }
       const metaExp = /^#((?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?)$/;
       const metaMatch = metaExp.exec(parsed.hash);
       if (metaMatch[1]) {
-        meta = metaMatch[1];
+        [, meta] = metaMatch;
       }
     }
     if (ops && meta) {
