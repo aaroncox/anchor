@@ -2,9 +2,42 @@
 
 import { app, BrowserWindow, Menu, Tray } from 'electron';
 
+import i18n from 'i18next';
+import Backend from 'i18next-sync-fs-backend';
+import sprintf from 'i18next-sprintf-postprocessor';
+import LanguageDetector from 'i18next-electron-language-detector';
+import { reactI18nextModule } from 'react-i18next';
+
 const path = require('path');
 
 const assetsDirectory = path.join(__dirname, 'assets');
+
+i18n
+  .use(Backend)
+  .use(LanguageDetector)
+  .use(reactI18nextModule)
+  .use(sprintf)
+  .init({
+    fallbackLng: 'en',
+    ns: ['common'],
+    defaultNS: 'common',
+    fallbackNS: 'common',
+    debug: true,
+    interpolation: {
+      escapeValue: false,
+    },
+    backend: {
+      loadPath: path.join(__dirname, '/locales/{{lng}}/{{ns}}.json'),
+      // addPath: path.join(__dirname,  '/locales/{{lng}}/{{ns}}.missing.json'),
+      jsonIndent: 2
+    },
+    overloadTranslationOptionHandler: sprintf.overloadTranslationOptionHandler,
+    react: {
+      wait: true
+    }
+  });
+
+global.i18n = i18n;
 
 let tray = null;
 let menu = null;

@@ -1,5 +1,6 @@
 // @flow
 import React, { Component } from 'react';
+import { I18n } from 'react-i18next';
 import { Button, Header, Segment } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
 
@@ -14,30 +15,36 @@ class Anchor extends Component<Props> {
 
   render() {
     return (
-      <div style={{ margin: '2px' }}>
-        <Segment
-          attached="top"
-          color="grey"
-          inverted
-          textAlign="left"
-        >
-          Anchor - Confirm Operation
-        </Segment>
-        <Segment attached>
-          {this.props.match.params.ops}
-        </Segment>
-        <Segment attached>
-          {this.props.match.params.meta}
-        </Segment>
-        <Segment
-          attached="bottom"
-          textAlign="center"
-        >
-          <Button onClick={this.close}>
-            Dismiss
-          </Button>
-        </Segment>
-      </div>
+      <I18n ns='anchor'>
+        {
+          (t) => (
+            <div style={{ margin: '2px' }}>
+              <Segment
+                attached="top"
+                color="grey"
+                inverted
+                textAlign="left"
+              >
+                Anchor - Confirm Operation
+              </Segment>
+              <Segment attached>
+                {this.props.match.params.ops}
+              </Segment>
+              <Segment attached>
+                {this.props.match.params.meta}
+              </Segment>
+              <Segment
+                attached="bottom"
+                textAlign="center"
+              >
+                <Button onClick={this.close}>
+                  Dismiss
+                </Button>
+              </Segment>
+            </div>
+          )
+        }
+      </I18n>
     );
   }
 }
