@@ -233,11 +233,11 @@ const showManager = () => {
   }
 };
 
+global.showManager = showManager;
+
 const devToolsLog = (s) => {
   console.log(s);
   if (menu && menu.webContents) {
     menu.webContents.executeJavaScript(`console.log("${s}")`);
   }
 };
-
-global.showManager = showManager;
