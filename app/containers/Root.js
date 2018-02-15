@@ -12,7 +12,7 @@ type Props = {
   history: {}
 };
 
-export default class TrayMenu extends Component<Props> {
+export default class Root extends Component<Props> {
   render() {
     return (
       <I18nextProvider i18n={i18n}>
