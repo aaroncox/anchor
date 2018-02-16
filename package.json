@@ -31,9 +31,11 @@
     "productName": "Anchor",
     "appId": "com.greymass.Anchor",
     "files": [
+      "assets/",
       "dist/",
+      "locales/",
       "node_modules/",
-      "app.html",
+      "index.html",
       "main.prod.js",
       "main.prod.js.map",
       "package.json"
