@@ -178,7 +178,7 @@
   },
   "dependencies": {
     "devtron": "^1.4.0",
-    "electron-debug": "^1.5.0",
+    "electron-debug": "^1.4.0",
     "electron-log": "^2.2.14",
     "history": "^4.7.2",
     "i18next": "^10.3.0",
