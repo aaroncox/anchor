@@ -10,7 +10,6 @@ import { reactI18nextModule } from 'react-i18next';
 
 const path = require('path');
 
-const assetsDirectory = path.join(__dirname, 'assets');
 
 i18n
   .use(Backend)
@@ -85,6 +84,7 @@ app.on('open-url', (event, url) => {
 });
 
 const createTray = () => {
+  const assetsDirectory = path.join(__dirname, 'assets');
   tray = new Tray(path.join(assetsDirectory, 'icon.png'));
   tray.on('click', (event) => {
     toggleWindow();
