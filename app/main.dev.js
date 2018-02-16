@@ -1,6 +1,7 @@
 /* eslint global-require: 0, flowtype-errors/show-errors: 0 */
 
-import { app, BrowserWindow, Menu, Tray } from 'electron';
+import { app, BrowserWindow, crashReporter, Menu, Tray } from 'electron';
+
 
 import i18n from 'i18next';
 import Backend from 'i18next-sync-fs-backend';
@@ -10,6 +11,12 @@ import { reactI18nextModule } from 'react-i18next';
 
 const path = require('path');
 
+crashReporter.start({
+  productName: 'Anchor',
+  companyName: '',
+  submitURL: '',
+  uploadToServer: false
+});
 
 i18n
   .use(Backend)
