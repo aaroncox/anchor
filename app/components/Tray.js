@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { I18n } from 'react-i18next';
 import { Button, Form, Header, Segment } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
+import packageJson from '../package.json';
 
 const electron = require('electron');
 
@@ -38,6 +39,7 @@ class TrayMenu extends Component<Props> {
   }
 
   render() {
+    const { version } = packageJson;
     return (
       <I18n ns="tray">
         {
@@ -50,7 +52,7 @@ class TrayMenu extends Component<Props> {
                 textAlign="center"
               >
                 <Header size="small">
-                  {t('appname')} (v0.0.1)
+                  {t('appname')} (v{version})
                 </Header>
               </Segment>
               <Segment attached>
