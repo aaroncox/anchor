@@ -237,6 +237,9 @@ const createAnchor = (url = false) => {
     }
     if (ops && meta) {
       anchor.loadURL(`file://${path.join(__dirname, 'index.html')}#/anchor/${ops}/${meta}`);
+    } else {
+      log.info('anchor link failed');
+      log.info(parsed);
     }
   }
 
