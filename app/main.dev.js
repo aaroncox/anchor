@@ -78,7 +78,7 @@ if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true')
 
   // Log all messages
   log.transports.file.level = 'info';
-  log.info('development mode enabled')
+  log.info('development mode enabled');
 }
 
 const installExtensions = async () => {
