@@ -11,6 +11,24 @@ import { reactI18nextModule } from 'react-i18next';
 
 const path = require('path');
 
+// logging to file via electron-log
+const log = require('electron-log');
+const util = require('util');
+
+let tray = null;
+let menu = null;
+let manager = null;
+let anchor = null;
+
+log.transports.console = (msg) => {
+  const text = util.format.apply(util, msg.data);
+  if (menu && menu.webContents) {
+    menu.webContents.executeJavaScript(`console.log("[${msg.date.toLocaleTimeString()} ${msg.level}] ${text}")`);
+  }
+};
+
+log.info('anchor: initializing');
+
 crashReporter.start({
   productName: 'Anchor',
   companyName: '',
@@ -28,7 +46,7 @@ i18n
     ns: ['common'],
     defaultNS: 'common',
     fallbackNS: 'common',
-    debug: true,
+    debug: false,
     interpolation: {
       escapeValue: false,
     },
@@ -45,11 +63,6 @@ i18n
 
 global.i18n = i18n;
 
-let tray = null;
-let menu = null;
-let manager = null;
-let anchor = null;
-
 app.dock.hide();
 
 if (process.env.NODE_ENV === 'production') {
@@ -62,6 +75,10 @@ if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true')
 
   const p = path.join(__dirname, '..', 'app', 'node_modules');
   require('module').globalPaths.push(p);
+
+  // Log all messages
+  log.transports.file.level = 'info';
+  log.info('development mode enabled')
 }
 
 const installExtensions = async () => {
@@ -78,6 +95,7 @@ const installExtensions = async () => {
 };
 
 app.on('ready', async () => {
+  log.info('anchor: ready');
   if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {
     await installExtensions();
   }
@@ -87,23 +105,39 @@ app.on('ready', async () => {
 
 app.setAsDefaultProtocolClient('steem');
 app.on('open-url', (event, url) => {
+  log.info(`anchor link: ${url}`);
   createAnchor(url);
 });
+app.on('window-all-closed', () => {
+  log.info('anchor: window-all-closed');
+});
+app.on('will-finish-launching', () => { log.info('anchor: will-finish-launching'); });
+app.on('before-quit', () => { log.info('anchor: before-quit'); });
+app.on('will-quit', () => { log.info('anchor: will-quit'); });
+app.on('quit', () => { log.info('anchor: quit'); });
 
 const createTray = () => {
+  log.info('creating tray menu');
   const assetsDirectory = path.join(__dirname, 'assets');
   tray = new Tray(path.join(assetsDirectory, 'icon.png'));
   tray.on('click', (event) => {
     toggleWindow();
-    if (menu.isVisible() && process.defaultApp && event.ctrlKey) {
+    if (process.defaultApp && event.ctrlKey) {
       if (!menu.webContents.isDevToolsOpened()) {
         menu.openDevTools({ mode: 'detach' });
-        devToolsLog('Anchor > Tray Menu > DevTools');
+        log.info('Anchor > Tray Menu > DevTools');
       }
     }
   });
   tray.on('right-click', () => {
     const contextMenu = Menu.buildFromTemplate([
+      {
+        label: 'Debug',
+        click: () => {
+          menu.openDevTools({ mode: 'detach' });
+          log.info('Anchor > Tray Menu > DevTools');
+        }
+      },
       {
         label: 'Quit',
         click: () => {
@@ -116,6 +150,7 @@ const createTray = () => {
 };
 
 const createMenu = () => {
+  log.info('tray menu: creating');
   menu = new BrowserWindow({
     width: 300,
     height: 450,
@@ -131,6 +166,10 @@ const createMenu = () => {
 
   menu.loadURL(`file://${path.join(__dirname, 'index.html')}#/`);
 
+  menu.webContents.on('did-finish-load', () => {
+    log.info('tray menu: loaded');
+  });
+
   menu.on('blur', () => {
     if (!menu.webContents.isDevToolsOpened()) {
       menu.hide();
@@ -139,6 +178,7 @@ const createMenu = () => {
 };
 
 const createManager = () => {
+  log.info('manager: creating');
   manager = new BrowserWindow({
     width: 960,
     height: 540,
@@ -153,6 +193,7 @@ const createManager = () => {
   manager.loadURL(`file://${path.join(__dirname, 'index.html')}#/manager`);
 
   manager.webContents.on('did-finish-load', () => {
+    log.info('manager: loaded');
     manager.show();
     manager.focus();
   });
@@ -163,6 +204,7 @@ const createManager = () => {
 };
 
 const createAnchor = (url = false) => {
+  log.info('anchor: creating');
   anchor = new BrowserWindow({
     width: 640,
     height: 395,
@@ -199,6 +241,7 @@ const createAnchor = (url = false) => {
   }
 
   anchor.webContents.on('did-finish-load', () => {
+    log.info('anchor: loaded');
     anchor.show();
     anchor.focus();
   });
@@ -242,10 +285,3 @@ const showManager = () => {
 };
 
 global.showManager = showManager;
-
-const devToolsLog = (s) => {
-  console.log(s);
-  if (menu && menu.webContents) {
-    menu.webContents.executeJavaScript(`console.log("${s}")`);
-  }
-};
