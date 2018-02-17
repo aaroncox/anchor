@@ -111,7 +111,6 @@ app.on('ready', async () => {
     await installExtensions();
   }
   createTray(); // Initialize the tray
-  createMenu(); // Initialize the tray menu (browser)
 });
 
 // catch protocol links
