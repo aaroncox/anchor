@@ -11,6 +11,13 @@ const path = require('path');
 const log = require('electron-log');
 const util = require('util');
 
+
+let dirname = __dirname;
+if(process.mainModule.filename.indexOf('app.asar') == -1) {
+  log.info("running in debug without asar, modifying path");
+  dirname = path.join(dirname, '../');
+}
+
 const installExtensions = async () => {
   const installer = require('electron-devtools-installer');
   const forceDownload = !!process.env.UPGRADE_EXTENSIONS;
@@ -29,12 +36,11 @@ let menu = null;
 let manager = null;
 let anchor = null;
 
-// logging to file via electron-log
-log.transports.console = (msg) => {
-  const text = util.format(...msg.data);
-  if (menu && menu.webContents) {
-    menu.webContents.executeJavaScript(`console.log("[${msg.date.toLocaleTimeString()} ${msg.level}] ${text}")`);
-  }
+// bind all console.log to electron-log
+const cl = console.log.bind(console);
+console.log = (...args) => {
+  log.info(args);
+  cl(...args);
 };
 
 log.info('app: initializing');
@@ -73,13 +79,12 @@ i18n
     ns: ['common'],
     defaultNS: 'common',
     fallbackNS: 'common',
-    debug: false,
+    debug: true,
     interpolation: {
       escapeValue: false,
     },
     backend: {
-      loadPath: path.join(__dirname, '/locales/{{lng}}/{{ns}}.json'),
-      addPath: path.join(__dirname, '/locales/{{lng}}/{{ns}}.missing.json'),
+      loadPath: path.join(dirname, 'renderer/assets/locales/{{lng}}/{{ns}}.json'),
       jsonIndent: 2
     },
     overloadTranslationOptionHandler: sprintf.overloadTranslationOptionHandler,
@@ -92,21 +97,32 @@ global.i18n = i18n;
 // Don't display the dock/task icon (NYI - display when a non always on top window is rendered)
 app.dock.hide();
 
+// Register as the default steem:// protocol client
+app.setAsDefaultProtocolClient('steem');
+
+// main exceptions to electron-log
+app.on('uncaughtException', (error) => {
+  log.error(error);
+});
+
+// main start
 app.on('ready', async () => {
   log.info('app: ready');
   if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {
     log.info('development mode enabled');
     await installExtensions();
   }
-  createTray();
-  createMenu();
+  createTray(); // Initialize the tray
+  createMenu(); // Initialize the tray menu (browser)
 });
 
-app.setAsDefaultProtocolClient('steem');
+// catch protocol links
 app.on('open-url', (event, url) => {
   log.info(`anchor link: ${url}`);
   createAnchor(url);
 });
+
+// debug event logging
 app.on('window-all-closed', () => {
   log.info('app: window-all-closed');
 });
@@ -118,9 +134,11 @@ app.on('quit', () => { log.info('app: quit'); });
 const createTray = () => {
   log.info('creating tray menu');
 
-  const assetsDirectory = path.join(__dirname, 'assets');
+  console.log(__dirname);
+  let trayIcon = path.join(dirname, 'renderer/assets/images/logo.png');
+  log.info(trayIcon);
 
-  tray = new Tray(path.join(assetsDirectory, 'icon.png'));
+  tray = new Tray(trayIcon);
 
   tray.on('click', (event) => {
     toggleWindow();
@@ -168,10 +186,11 @@ const createMenu = () => {
     }
   });
 
-  menu.loadURL(`file://${path.join(__dirname, 'index.html')}#/`);
+  menu.loadURL(`file://${path.join(dirname, 'renderer/tray/index.html')}#/`);
 
   menu.webContents.on('did-finish-load', () => {
     log.info('tray menu: loaded');
+    menu.openDevTools({ mode: 'detach' });
   });
 
   menu.on('blur', () => {
@@ -195,10 +214,11 @@ const createManager = () => {
     alwaysOnTop: true
   });
 
-  manager.loadURL(`file://${path.join(__dirname, 'index.html')}#/manager`);
+  manager.loadURL(`file://${path.join(dirname, 'renderer/manager/index.html')}#/`);
 
   manager.webContents.on('did-finish-load', () => {
     log.info('manager: loaded');
+    manager.openDevTools({ mode: 'detach' });
     manager.show();
     manager.focus();
   });
@@ -244,17 +264,18 @@ const createAnchor = (url = false) => {
     }
 
     if (ops && meta) {
-      log.info('anchor link: found');
+      log.info('anchor base64 valid');
       log.info(ops);
-      anchor.loadURL(`file://${path.join(__dirname, 'index.html')}#/anchor/${ops}/${meta}`);
+      anchor.loadURL(`file://${path.join(dirname, 'renderer/anchor/index.html')}#/${ops}/${meta}`);
     } else {
-      log.info('anchor link: failed');
+      log.info('anchor base64 failed');
       log.info(parsed);
     }
   }
 
   anchor.webContents.on('did-finish-load', () => {
-    log.info('app: loaded');
+    log.info('anchor link: loaded');
+    anchor.openDevTools({ mode: 'detach' });
     anchor.show();
     anchor.focus();
   });

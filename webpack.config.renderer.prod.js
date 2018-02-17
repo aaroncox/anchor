@@ -18,12 +18,26 @@ export default merge.smart(baseConfig, {
 
   target: 'electron-renderer',
 
-  entry: './app/index',
+  entry: {
+    anchor: [
+      'babel-polyfill',
+      path.join(__dirname, 'app/renderer/anchor/index'),
+    ],
+    manager: [
+      'babel-polyfill',
+      path.join(__dirname, 'app/renderer/manager/index'),
+    ],
+    tray: [
+      'babel-polyfill',
+      path.join(__dirname, 'app/renderer/tray/index'),
+    ]
+  },
 
   output: {
+    ...baseConfig.output,
     path: path.join(__dirname, 'app/dist'),
     publicPath: './dist/',
-    filename: 'renderer.prod.js'
+    filename: 'renderer.[name].prod.js'
   },
 
   module: {

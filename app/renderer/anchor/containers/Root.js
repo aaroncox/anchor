@@ -5,7 +5,7 @@ import { I18nextProvider } from 'react-i18next';
 import { ConnectedRouter } from 'react-router-redux';
 
 import Routes from '../routes';
-import i18n from '../i18n';
+import i18n from '../../../shared/i18n';
 
 type Props = {
   store: {},
