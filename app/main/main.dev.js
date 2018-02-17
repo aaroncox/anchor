@@ -80,7 +80,7 @@ i18n
     ns: ['common'],
     defaultNS: 'common',
     fallbackNS: 'common',
-    debug: true,
+    debug: (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true'),
     interpolation: {
       escapeValue: false,
     },
