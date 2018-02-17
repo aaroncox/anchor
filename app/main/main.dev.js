@@ -287,6 +287,9 @@ const getWindowPosition = () => {
 };
 
 const toggleWindow = () => {
+  if (!menu) {
+    createMenu(); // Initialize the tray menu (browser)
+  }
   if (menu.isVisible()) {
     menu.hide();
   } else {
