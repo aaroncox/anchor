@@ -1,13 +1,17 @@
 // @flow
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
+import { electronEnhancer } from 'redux-electron-store'
 import { createBrowserHistory } from 'history';
 import { routerMiddleware } from 'react-router-redux';
-import rootReducer from '../reducers';
+import rootReducer from '../../reducers';
 
 const history = createBrowserHistory();
 const router = routerMiddleware(history);
-const enhancer = applyMiddleware(thunk, router);
+const enhancer = compose(
+  applyMiddleware(thunk, router),
+  electronEnhancer(true),
+);
 
 function configureStore(initialState?: counterStateType) {
   return createStore(rootReducer, initialState, enhancer);

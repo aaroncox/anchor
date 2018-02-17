@@ -8,17 +8,13 @@ import {
 
 import App from './containers/App';
 
-// import Anchor from './containers/Anchor';
-// import Manager from './containers/Manager';
-import Tray from './containers/Tray';
+import TrayContainer from './containers/Tray';
 
 export default () => (
   <App>
     <HashRouter>
       <Switch>
-        <Route exact path="/" component={Tray} />
-        {/* <Route path="/anchor/:ops/:meta" component={Anchor} />
-        <Route path="/manager" component={Manager} /> */}
+        <Route exact path="/" component={TrayContainer} />
       </Switch>
     </HashRouter>
   </App>

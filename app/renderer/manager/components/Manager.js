@@ -2,11 +2,10 @@
 import React, { Component } from 'react';
 import { I18n } from 'react-i18next';
 import { Button, Header, Segment } from 'semantic-ui-react';
-import { withRouter } from 'react-router-dom';
 
 type Props = {};
 
-class Manager extends Component<Props> {
+export default class Manager extends Component<Props> {
   props: Props;
 
   close = () => {
@@ -14,6 +13,7 @@ class Manager extends Component<Props> {
   }
 
   render() {
+    console.log(this.props)
     return (
       <I18n ns="manager">
         {
@@ -31,7 +31,7 @@ class Manager extends Component<Props> {
                 </Header>
               </Segment>
               <Segment attached style={{ minHeight: '422px' }}>
-                Content
+                {JSON.stringify(this.props.settings)}
               </Segment>
               <Segment
                 attached="bottom"
@@ -48,5 +48,3 @@ class Manager extends Component<Props> {
     );
   }
 }
-
-export default withRouter(Manager);

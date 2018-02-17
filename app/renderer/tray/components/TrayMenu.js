@@ -2,8 +2,7 @@
 
 import React, { Component } from 'react';
 import { I18n } from 'react-i18next';
-import { Button, Form, Header, Segment } from 'semantic-ui-react';
-import { withRouter } from 'react-router-dom';
+import { Button, Dropdown, Header, Segment } from 'semantic-ui-react';
 import packageJson from '../../../package.json';
 
 const electron = require('electron');
@@ -26,7 +25,7 @@ const accounts = [
   }
 ];
 
-class TrayMenu extends Component<Props> {
+export default class TrayMenu extends Component<Props> {
   props: Props;
 
   close = () => {
@@ -38,8 +37,13 @@ class TrayMenu extends Component<Props> {
     showManager();
   }
 
+  handleAccountChange = (e, { value }) => {
+    this.props.actions.setPreference('default_account', value);
+  }
+
   render() {
     const { version } = packageJson;
+    console.log(this.props)
     return (
       <I18n ns="tray">
         {
@@ -56,21 +60,20 @@ class TrayMenu extends Component<Props> {
                 </Header>
               </Segment>
               <Segment attached>
-                <Form>
-                  <Form.Select
-                    fluid
-                    label="Default Account"
-                    options={accounts}
-                    placeholder="@jesta"
-                  />
-                </Form>
+                <Dropdown
+                  fluid
+                  search
+                  selection
+                  options={accounts}
+                  onChange={this.handleAccountChange}
+                />
               </Segment>
               <Segment attached>
                 <Button onClick={this.openManager}>
                   Test Manager
                 </Button>
-                <Button onClick={this.openAnchor}>
-                  Test Anchor
+                <Button onClick={this.props.actions.testAction}>
+                  Test Action
                 </Button>
               </Segment>
               <Segment
@@ -88,5 +91,3 @@ class TrayMenu extends Component<Props> {
     );
   }
 }
-
-export default withRouter(TrayMenu);

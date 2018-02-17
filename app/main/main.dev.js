@@ -10,6 +10,9 @@ import { reactI18nextModule } from 'react-i18next';
 const path = require('path');
 const log = require('electron-log');
 
+import { configureStore } from '../shared/store/main/configureStore';
+const store = configureStore();
+
 let dirname = __dirname;
 if(process.mainModule.filename.indexOf('app.asar') == -1) {
   log.info("running in debug without asar, modifying path");
