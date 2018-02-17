@@ -18,18 +18,17 @@ class ManagerContainer extends Component<Props> {
   }
 }
 
-function mapStateToProps(state, ownProps) {
-  console.log(state)
+function mapStateToProps(state) {
   return {
     settings: state.settings
-  }
+  };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
     }, dispatch)
-  }
+  };
 }
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ManagerContainer));

@@ -6,16 +6,16 @@ import Backend from 'i18next-sync-fs-backend';
 import sprintf from 'i18next-sprintf-postprocessor';
 import LanguageDetector from 'i18next-electron-language-detector';
 import { reactI18nextModule } from 'react-i18next';
+import { configureStore } from '../shared/store/main/configureStore';
 
 const path = require('path');
 const log = require('electron-log');
 
-import { configureStore } from '../shared/store/main/configureStore';
-const store = configureStore();
+configureStore();
 
 let dirname = __dirname;
-if(process.mainModule.filename.indexOf('app.asar') == -1) {
-  log.info("running in debug without asar, modifying path");
+if (process.mainModule.filename.indexOf('app.asar') === -1) {
+  log.info('running in debug without asar, modifying path');
   dirname = path.join(dirname, '../');
 }
 
@@ -134,7 +134,7 @@ app.on('quit', () => { log.info('app: quit'); });
 const createTray = () => {
   log.info('creating tray menu');
 
-  let trayIcon = path.join(dirname, 'renderer/assets/images/logo.png');
+  const trayIcon = path.join(dirname, 'renderer/assets/images/logo.png');
 
   tray = new Tray(trayIcon);
 

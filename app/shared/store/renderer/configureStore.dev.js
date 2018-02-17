@@ -11,7 +11,6 @@ const history = createHashHistory();
 const configureStore = (initialState?: counterStateType) => {
   // Redux Configuration
   const middleware = [];
-  const enhancers = [];
 
   // Thunk Middleware
   middleware.push(thunk);
@@ -46,7 +45,7 @@ const configureStore = (initialState?: counterStateType) => {
   /* eslint-enable no-underscore-dangle */
 
   // Apply Middleware & Compose Enhancers
-  const enhancer = compose(
+  const enhancer = composeEnhancers(
     applyMiddleware(...middleware),
     electronEnhancer(true)
   );

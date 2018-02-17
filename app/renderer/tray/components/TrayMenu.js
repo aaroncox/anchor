@@ -9,7 +9,11 @@ const electron = require('electron');
 
 const { remote } = electron;
 
-type Props = {};
+type Props = {
+  actions: {
+    setPreference: () => void
+  }
+};
 
 const accounts = [
   {
@@ -38,12 +42,12 @@ export default class TrayMenu extends Component<Props> {
   }
 
   handleAccountChange = (e, { value }) => {
-    this.props.actions.setPreference('default_account', value);
+    const { setPreference } = this.props.actions;
+    setPreference('default_account', value);
   }
 
   render() {
     const { version } = packageJson;
-    console.log(this.props)
     return (
       <I18n ns="tray">
         {
@@ -71,9 +75,6 @@ export default class TrayMenu extends Component<Props> {
               <Segment attached>
                 <Button onClick={this.openManager}>
                   Test Manager
-                </Button>
-                <Button onClick={this.props.actions.testAction}>
-                  Test Action
                 </Button>
               </Segment>
               <Segment

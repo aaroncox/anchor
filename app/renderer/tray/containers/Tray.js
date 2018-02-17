@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import * as Settings from '../../../shared/actions/settings'
+import * as Settings from '../../../shared/actions/settings';
 
 import TrayMenu from '../components/TrayMenu';
 
@@ -20,10 +20,10 @@ class TrayContainer extends Component<Props> {
   }
 }
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
   return {
     settings: state.settings
-  }
+  };
 }
 
 function mapDispatchToProps(dispatch) {
@@ -31,7 +31,7 @@ function mapDispatchToProps(dispatch) {
     actions: bindActionCreators({
       ...Settings
     }, dispatch)
-  }
+  };
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(TrayMenu));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(TrayContainer));

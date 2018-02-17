@@ -3,7 +3,9 @@ import React, { Component } from 'react';
 import { I18n } from 'react-i18next';
 import { Button, Header, Segment } from 'semantic-ui-react';
 
-type Props = {};
+type Props = {
+  settings: object
+};
 
 export default class Manager extends Component<Props> {
   props: Props;
@@ -13,7 +15,6 @@ export default class Manager extends Component<Props> {
   }
 
   render() {
-    console.log(this.props)
     return (
       <I18n ns="manager">
         {
