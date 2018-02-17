@@ -185,7 +185,6 @@ const createMenu = () => {
 
   menu.webContents.on('did-finish-load', () => {
     log.info('tray menu: loaded');
-    menu.openDevTools({ mode: 'detach' });
   });
 
   menu.on('blur', () => {
@@ -213,7 +212,6 @@ const createManager = () => {
 
   manager.webContents.on('did-finish-load', () => {
     log.info('manager: loaded');
-    manager.openDevTools({ mode: 'detach' });
     manager.show();
     manager.focus();
   });
@@ -270,7 +268,6 @@ const createAnchor = (url = false) => {
 
   anchor.webContents.on('did-finish-load', () => {
     log.info('anchor link: loaded');
-    anchor.openDevTools({ mode: 'detach' });
     anchor.show();
     anchor.focus();
   });
