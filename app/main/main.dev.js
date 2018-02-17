@@ -9,8 +9,6 @@ import { reactI18nextModule } from 'react-i18next';
 
 const path = require('path');
 const log = require('electron-log');
-const util = require('util');
-
 
 let dirname = __dirname;
 if(process.mainModule.filename.indexOf('app.asar') == -1) {
@@ -134,9 +132,7 @@ app.on('quit', () => { log.info('app: quit'); });
 const createTray = () => {
   log.info('creating tray menu');
 
-  console.log(__dirname);
   let trayIcon = path.join(dirname, 'renderer/assets/images/logo.png');
-  log.info(trayIcon);
 
   tray = new Tray(trayIcon);
 
