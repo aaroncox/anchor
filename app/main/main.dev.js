@@ -7,7 +7,7 @@ import { configureLocalization } from './i18n';
 import { createAnchor } from './anchor';
 import { createManager } from './manager';
 import { createMenu } from './menu';
-import { createTray, showTrayMenu } from './tray';
+import { createTray } from './tray';
 
 const path = require('path');
 const log = require('electron-log');
@@ -90,7 +90,6 @@ app.on('ready', async () => {
   }
   menu = createMenu(resourcePath); // Initialize the menu
   tray = createTray(resourcePath, menu); // Initialize the tray
-  showTrayMenu(menu, tray); // Show the tray upon start (UX to show app startup)
 });
 
 // catch protocol links

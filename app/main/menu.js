@@ -3,6 +3,7 @@ import { BrowserWindow } from 'electron';
 const path = require('path');
 const log = require('electron-log');
 
+
 const createMenu = (resourcePath) => {
   log.info('tray menu: creating');
 
