@@ -8,13 +8,16 @@ import rootReducer from '../../reducers';
 
 const history = createBrowserHistory();
 const router = routerMiddleware(history);
-const enhancer = compose(
-  applyMiddleware(thunk, router),
-  electronEnhancer(true),
-);
 
-function configureStore(initialState?: counterStateType) {
-  return createStore(rootReducer, initialState, enhancer);
+function configureStore(initialState) {
+  const enhancer = compose(
+    applyMiddleware(thunk, router),
+    electronEnhancer({
+      dispatchProxy: a => store.dispatch(a),
+    }),
+  );
+  const store = createStore(rootReducer, initialState, enhancer);
+  return store;
 }
 
 export default { configureStore, history };

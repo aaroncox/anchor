@@ -8,7 +8,7 @@ import rootReducer from '../../reducers';
 
 const history = createHashHistory();
 
-const configureStore = (initialState?: counterStateType) => {
+const configureStore = (initialState) => {
   // Redux Configuration
   const middleware = [];
 
@@ -47,7 +47,9 @@ const configureStore = (initialState?: counterStateType) => {
   // Apply Middleware & Compose Enhancers
   const enhancer = composeEnhancers(
     applyMiddleware(...middleware),
-    electronEnhancer(true)
+    electronEnhancer({
+      dispatchProxy: a => store.dispatch(a),
+    })
   );
 
   // Create Store

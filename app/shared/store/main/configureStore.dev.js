@@ -4,7 +4,7 @@ import { electronEnhancer } from 'redux-electron-store';
 import { createLogger } from 'redux-logger';
 import rootReducer from '../../reducers';
 
-const configureStore = (initialState?: counterStateType) => {
+const configureStore = (initialState) => {
   // Redux Configuration
   const middleware = [];
 
@@ -25,7 +25,9 @@ const configureStore = (initialState?: counterStateType) => {
   // Apply Middleware & Compose Enhancers
   const enhancer = compose(
     applyMiddleware(...middleware),
-    electronEnhancer(true)
+    electronEnhancer({
+      dispatchProxy: a => store.dispatch(a),
+    })
   );
 
   // Create Store

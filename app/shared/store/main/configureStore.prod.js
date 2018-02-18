@@ -4,13 +4,15 @@ import thunk from 'redux-thunk';
 import { electronEnhancer } from 'redux-electron-store';
 import rootReducer from '../../reducers';
 
-const enhancer = compose(
-  applyMiddleware(thunk),
-  electronEnhancer(true),
-);
-
-function configureStore(initialState?: counterStateType) {
-  return createStore(rootReducer, initialState, enhancer);
+function configureStore(initialState) {
+  const enhancer = compose(
+    applyMiddleware(thunk),
+    electronEnhancer({
+      dispatchProxy: a => store.dispatch(a)
+    })
+  );
+  const store = createStore(rootReducer, initialState, enhancer);
+  return store;
 }
 
 export default { configureStore };
