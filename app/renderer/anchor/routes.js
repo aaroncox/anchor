@@ -14,7 +14,7 @@ export default () => (
   <App>
     <HashRouter>
       <Switch>
-        <Route path="/anchor/:ops/:meta" component={Anchor} />
+        <Route path="/:ops/:meta" component={Anchor} />
       </Switch>
     </HashRouter>
   </App>
