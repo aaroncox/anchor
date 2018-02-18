@@ -10,7 +10,7 @@ import { configureStore, history } from '../store/renderer/configureStore';
 import i18n from '../i18n';
 import '../app.global.css';
 
-const store = configureStore();
+const { store } = configureStore();
 
 export default class Root extends Component<Props> {
   render() {

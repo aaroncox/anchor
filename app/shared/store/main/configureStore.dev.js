@@ -1,28 +1,21 @@
 import { createStore, applyMiddleware, compose } from 'redux';
-import thunk from 'redux-thunk';
 import { electronEnhancer } from 'redux-electron-store';
-import { createLogger } from 'redux-logger';
+import { persistStore, persistReducer } from 'redux-persist';
+import thunk from 'redux-thunk';
+
 import rootReducer from '../../reducers';
+import persistConfig from '../shared/persist';
+import logger from '../shared/logger';
 
 const configureStore = (initialState) => {
-  // Redux Configuration
   const middleware = [];
 
-  // Thunk Middleware
   middleware.push(thunk);
 
-  // Logging Middleware
-  const logger = createLogger({
-    level: 'info',
-    collapsed: true
-  });
-
-  // Skip redux logs in console during the tests
   if (process.env.NODE_ENV !== 'test') {
     middleware.push(logger);
   }
 
-  // Apply Middleware & Compose Enhancers
   const enhancer = compose(
     applyMiddleware(...middleware),
     electronEnhancer({
@@ -30,15 +23,16 @@ const configureStore = (initialState) => {
     })
   );
 
-  // Create Store
-  const store = createStore(rootReducer, initialState, enhancer);
+  const persistedReducer = persistReducer(persistConfig, rootReducer);
+  const store = createStore(persistedReducer, initialState, enhancer);
+  const persistor = persistStore(store);
 
   if (module.hot) {
     module.hot.accept('../../reducers', () =>
       store.replaceReducer(require('../../reducers'))); // eslint-disable-line global-require
   }
 
-  return store;
+  return { store, persistor };
 };
 
 export default { configureStore };

@@ -30,7 +30,9 @@ const accounts = [
 ];
 
 export default class TrayMenu extends Component<Props> {
-  props: Props;
+  props: {
+    settings: {}
+  };
 
   close = () => {
     electron.remote.app.quit();
@@ -43,11 +45,13 @@ export default class TrayMenu extends Component<Props> {
 
   handleAccountChange = (e, { value }) => {
     const { setPreference } = this.props.actions;
-    setPreference('default_account', value);
+    setPreference('defaultAccount', value);
   }
 
   render() {
     const { version } = packageJson;
+    const { settings } = this.props;
+    const { defaultAccount } = settings;
     return (
       <I18n ns="tray">
         {
@@ -65,6 +69,7 @@ export default class TrayMenu extends Component<Props> {
               </Segment>
               <Segment attached>
                 <Dropdown
+                  defaultValue={defaultAccount}
                   fluid
                   search
                   selection
