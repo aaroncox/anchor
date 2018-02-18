@@ -41,11 +41,11 @@ const toggleMenu = (menu, tray) => {
   if (menu.isVisible()) {
     menu.hide();
   } else {
-    showMenu(menu, tray);
+    showTrayMenu(menu, tray);
   }
 };
 
-const showMenu = (menu, tray) => {
+const showTrayMenu = (menu, tray) => {
   const position = getWindowPosition(menu, tray);
   menu.setPosition(position.x, position.y, false);
   menu.show();
@@ -61,4 +61,4 @@ const getWindowPosition = (menu, tray) => {
   return { x, y };
 };
 
-export default { createTray };
+export default { createTray, showTrayMenu };
