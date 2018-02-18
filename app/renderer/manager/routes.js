@@ -6,16 +6,12 @@ import {
   Switch
 } from 'react-router-dom';
 
-import App from './containers/App';
-
 import Manager from './containers/Manager';
 
 export default () => (
-  <App>
-    <HashRouter>
-      <Switch>
-        <Route path="/" component={Manager} />
-      </Switch>
-    </HashRouter>
-  </App>
+  <HashRouter>
+    <Switch>
+      <Route path="/" component={Manager} />
+    </Switch>
+  </HashRouter>
 );
