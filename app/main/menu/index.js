@@ -15,6 +15,7 @@ const createMenu = (resourcePath) => {
     fullscreenable: false,
     resizable: false,
     transparent: true,
+    alwaysOnTop: true,
     webPreferences: {
       backgroundThrottling: false
     }
@@ -24,11 +25,13 @@ const createMenu = (resourcePath) => {
 
   menu.webContents.on('did-finish-load', () => {
     log.info('tray menu: loaded');
+    menu.show();
+    menu.focus();
   });
 
   menu.on('blur', () => {
     if (!menu.webContents.isDevToolsOpened()) {
-      menu.hide();
+      // menu.hide();
     }
   });
 

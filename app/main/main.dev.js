@@ -2,7 +2,7 @@
 
 import { app, crashReporter } from 'electron';
 import { configureStore } from '../shared/store/main/configureStore';
-import { configureLocalization } from './i18n';
+import { configureLocalization } from './shared/i18n';
 
 import { createAnchor } from './anchor';
 import { createManager } from './manager';
