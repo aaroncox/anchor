@@ -8,7 +8,7 @@ type Props = {
   settings: object
 };
 
-export default class Manager extends Component<Props> {
+export default class Welcome extends Component<Props> {
   props: Props;
 
   close = () => {
@@ -16,6 +16,7 @@ export default class Manager extends Component<Props> {
   }
 
   render() {
+    console.log(this.props)
     return (
       <I18n ns="manager">
         {
@@ -29,26 +30,18 @@ export default class Manager extends Component<Props> {
                 style={{ '-webkit-app-region': 'drag' }}
               >
                 <Header>
-                  {t('title')}
+                  {t('title-welcome')}
                 </Header>
               </Segment>
-              <Segment attached style={{ minHeight: '422px' }}>
+              <Segment attached style={{ minHeight: '487px' }}>
                 <p>
                   <ul>
                     <li><Link to="/account/create">/account/create</Link></li>
                     <li><Link to="/account/import">/account/import</Link></li>
-                    <li><Link to="/welcome">/welcome</Link></li>
                   </ul>
                 </p>
-                {JSON.stringify(this.props.settings)}
-              </Segment>
-              <Segment
-                attached="bottom"
-                textAlign="center"
-              >
-                <Button onClick={this.close}>
-                  {t('dismiss')}
-                </Button>
+                <p>WELCOME!</p>
+                <p>File save location: </p>
               </Segment>
             </div>
           )

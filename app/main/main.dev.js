@@ -88,8 +88,13 @@ app.on('ready', async () => {
     log.info('development mode enabled');
     await installExtensions();
   }
-  menu = createMenu(resourcePath); // Initialize the menu
-  tray = createTray(resourcePath, menu); // Initialize the tray
+  // If this is the first run, walk through the welcome
+  if (!store.getState().settings.configured) {
+    log.info('new installation detected');
+    manager = initManager('/welcome', false);
+  } else {
+    initMenu();
+  }
 });
 
 // catch protocol links
@@ -107,12 +112,21 @@ app.on('before-quit', () => { log.info('app: before-quit'); });
 app.on('will-quit', () => { log.info('app: will-quit'); });
 app.on('quit', () => { log.info('app: quit'); });
 
+const initMenu = () => {
+  menu = createMenu(resourcePath); // Initialize the menu
+  tray = createTray(resourcePath, menu); // Initialize the tray
+};
+
+const initManager = (route = '/', closable = true) => {
+  manager = createManager(resourcePath, route, closable);
+  manager.on('close', () => {
+    manager = null;
+  });
+};
+
 const showManager = () => {
   if (!manager) {
-    manager = createManager(resourcePath);
-    manager.on('close', () => {
-      manager = null;
-    });
+    manager = initManager();
   }
   if (menu.isVisible()) {
     menu.hide();

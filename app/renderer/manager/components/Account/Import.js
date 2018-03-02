@@ -8,7 +8,7 @@ type Props = {
   settings: object
 };
 
-export default class Manager extends Component<Props> {
+export default class AccountImport extends Component<Props> {
   props: Props;
 
   close = () => {
@@ -29,25 +29,18 @@ export default class Manager extends Component<Props> {
                 style={{ '-webkit-app-region': 'drag' }}
               >
                 <Header>
-                  {t('title')}
+                  {t('title-account-import')}
                 </Header>
               </Segment>
               <Segment attached style={{ minHeight: '422px' }}>
-                <p>
-                  <ul>
-                    <li><Link to="/account/create">/account/create</Link></li>
-                    <li><Link to="/account/import">/account/import</Link></li>
-                    <li><Link to="/welcome">/welcome</Link></li>
-                  </ul>
-                </p>
-                {JSON.stringify(this.props.settings)}
+                Import Stuff
               </Segment>
               <Segment
                 attached="bottom"
                 textAlign="center"
               >
-                <Button onClick={this.close}>
-                  {t('dismiss')}
+                <Button as={Link} to="/">
+                  {t('cancel')}
                 </Button>
               </Segment>
             </div>
