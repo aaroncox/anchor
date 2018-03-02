@@ -1,3 +1,4 @@
+import { send } from 'redux-electron-ipc';
 import * as types from './types';
 
 export function setPreference(key, value) {
@@ -8,5 +9,11 @@ export function setPreference(key, value) {
         [key]: value
       }
     });
+  };
+}
+
+export function test() {
+  return (dispatch: () => void) => {
+    dispatch(send('ping', 'redux', 'electron', 'ipc'));
   };
 }

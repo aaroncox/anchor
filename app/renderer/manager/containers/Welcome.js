@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import Welcome from '../components/Welcome';
+import * as Settings from '../../../shared/actions/settings';
 
 type Props = {};
 
@@ -12,7 +13,6 @@ class WelcomeContainer extends Component<Props> {
   props: Props;
 
   render() {
-    console.log(this.props)
     return (
       <Welcome {...this.props} />
     );
@@ -28,6 +28,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
+      ...Settings
     }, dispatch)
   };
 }

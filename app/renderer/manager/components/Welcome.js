@@ -5,8 +5,12 @@ import { Button, Header, Segment } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
 type Props = {
-  settings: object
+  actions: {
+    setPreference: () => void,
+    test: () => void
+  }
 };
+
 
 export default class Welcome extends Component<Props> {
   props: Props;
@@ -15,8 +19,12 @@ export default class Welcome extends Component<Props> {
     window.close();
   }
 
+  handleTestIPC = () => {
+    const { test } = this.props.actions;
+    test();
+  }
+
   render() {
-    console.log(this.props)
     return (
       <I18n ns="manager">
         {
@@ -42,6 +50,9 @@ export default class Welcome extends Component<Props> {
                 </p>
                 <p>WELCOME!</p>
                 <p>File save location: </p>
+                <Button onClick={this.handleTestIPC}>
+                  Test IPC
+                </Button>
               </Segment>
             </div>
           )

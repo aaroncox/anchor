@@ -3,6 +3,7 @@ import { routerMiddleware, routerActions } from 'react-router-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
 import { electronEnhancer } from 'redux-electron-store';
 import { persistStore, persistReducer } from 'redux-persist';
+import createIpc from 'redux-electron-ipc';
 import thunk from 'redux-thunk';
 
 import rootReducer from '../../reducers';
@@ -22,6 +23,19 @@ const configureStore = (initialState) => {
 
   const router = routerMiddleware(history);
   middleware.push(router);
+
+  function pongActionCreator(event, arg1, arg2, arg3) {
+    return {
+      type: 'IPC_PONG',
+      arg1,
+      arg2,
+      arg3
+    };
+  }
+  const ipc = createIpc({
+    'pong': pongActionCreator // eslint-disable-line quote-props
+  });
+  middleware.push(ipc);
 
   const actionCreators = { ...routerActions };
 
