@@ -1,7 +1,7 @@
 import createElectronStorage from 'redux-persist-electron-storage';
 
 const persistConfig = {
-  key: 'root',
+  key: 'anchor-config',
   storage: createElectronStorage(),
   whitelist: [
     'settings'
