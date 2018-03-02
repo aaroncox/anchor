@@ -12,6 +12,8 @@ import { createTray } from './tray';
 const path = require('path');
 const log = require('electron-log');
 
+const { store } = configureStore();
+
 let resourcePath = __dirname;
 let menu = null;
 let manager = null;
