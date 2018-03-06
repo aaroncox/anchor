@@ -29,7 +29,7 @@ export default merge.smart(baseConfig, {
     ],
     tray: [
       'babel-polyfill',
-      path.join(__dirname, 'app/renderer/tray/index'),
+      path.join(__dirname, 'app/renderer/menu/index'),
     ]
   },
 

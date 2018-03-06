@@ -29,7 +29,7 @@ const accounts = [
   }
 ];
 
-export default class TrayMenu extends Component<Props> {
+export default class Menu extends Component<Props> {
   props: {
     settings: {}
   };

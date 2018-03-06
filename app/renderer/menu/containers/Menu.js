@@ -6,16 +6,16 @@ import { withRouter } from 'react-router-dom';
 
 import * as Settings from '../../../shared/actions/settings';
 
-import TrayMenu from '../components/TrayMenu';
+import Menu from '../components/Menu';
 
 type Props = {};
 
-class TrayContainer extends Component<Props> {
+class MenuContainer extends Component<Props> {
   props: Props;
 
   render() {
     return (
-      <TrayMenu {...this.props} />
+      <Menu {...this.props} />
     );
   }
 }
@@ -34,4 +34,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(TrayContainer));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MenuContainer));

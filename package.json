@@ -37,7 +37,7 @@
       "renderer/assets/",
       "renderer/anchor/index.html",
       "renderer/manager/index.html",
-      "renderer/tray/index.html",
+      "renderer/menu/index.html",
       "main.prod.js",
       "main.prod.js.map",
       "package.json"

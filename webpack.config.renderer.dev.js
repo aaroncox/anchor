@@ -50,11 +50,11 @@ export default merge.smart(baseConfig, {
       'webpack/hot/only-dev-server',
       path.join(__dirname, 'app/renderer/manager/index'),
     ],
-    tray: [
+    menu: [
       'react-hot-loader/patch',
       `webpack-dev-server/client?http://localhost:${port}/`,
       'webpack/hot/only-dev-server',
-      path.join(__dirname, 'app/renderer/tray/index'),
+      path.join(__dirname, 'app/renderer/menu/index'),
     ]
   },
 

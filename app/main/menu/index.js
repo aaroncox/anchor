@@ -21,7 +21,7 @@ const createMenu = (resourcePath) => {
     }
   });
 
-  menu.loadURL(`file://${path.join(resourcePath, 'renderer/tray/index.html')}#/`);
+  menu.loadURL(`file://${path.join(resourcePath, 'renderer/menu/index.html')}#/`);
 
   menu.webContents.on('did-finish-load', () => {
     log.info('tray menu: loaded');

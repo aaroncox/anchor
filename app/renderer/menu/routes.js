@@ -6,12 +6,12 @@ import {
   Switch
 } from 'react-router-dom';
 
-import TrayContainer from './containers/Tray';
+import MenuContainer from './containers/Menu';
 
 export default () => (
   <HashRouter>
     <Switch>
-      <Route exact path="/" component={TrayContainer} />
+      <Route exact path="/" component={MenuContainer} />
     </Switch>
   </HashRouter>
 );
