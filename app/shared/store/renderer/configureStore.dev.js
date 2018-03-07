@@ -24,16 +24,15 @@ const configureStore = (initialState) => {
   const router = routerMiddleware(history);
   middleware.push(router);
 
-  function pongActionCreator(event, arg1, arg2, arg3) {
+  function walletKeySetSuccessAction(event, arg1, arg2) {
     return {
-      type: 'IPC_PONG',
+      type: 'IPC_WALLET_KEY_SET',
       arg1,
-      arg2,
-      arg3
+      arg2
     };
   }
   const ipc = createIpc({
-    'pong': pongActionCreator // eslint-disable-line quote-props
+    walletKeySetSuccessAction
   });
   middleware.push(ipc);
 

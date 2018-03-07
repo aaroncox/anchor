@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
 import Welcome from '../components/Welcome';
+import * as Wallet from '../../../shared/actions/wallet';
 import * as Settings from '../../../shared/actions/settings';
 
 type Props = {};
@@ -28,7 +29,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({
-      ...Settings
+      ...Settings,
+      ...Wallet
     }, dispatch)
   };
 }

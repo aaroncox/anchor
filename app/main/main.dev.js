@@ -8,6 +8,7 @@ import { createAnchor } from './anchor';
 import { createManager } from './manager';
 import { createMenu } from './menu';
 import { createTray } from './tray';
+import Wallet from './wallet';
 
 const path = require('path');
 const log = require('electron-log');
