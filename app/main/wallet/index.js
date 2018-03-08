@@ -3,6 +3,7 @@ import _ from 'lodash';
 
 const Store = require('electron-store');
 const steem = require('steem');
+const CryptoJS = require("crypto-js");
 
 class Wallet {
   constructor(network = 'steem') {
@@ -13,17 +14,30 @@ class Wallet {
   }
 
   setKey(event, password, account, type, key) {
-    // Determine the public key for this private key
-    const publicKey = steem.auth.wifToPublic(key);
-    // Save the keys within the wallet file
-    this.wallet.set({
-      // Record this as the current key for this type
-      [`accounts.${account}.current.${type}`]: key,
-      // Add new key to keystore
-      [`accounts.${account}.keystore.${publicKey}`]: key
-    });
-    // Broadcast the success event to react
-    event.sender.send('walletKeySetSuccessAction', account, type);
+    let wif = key;
+    // Is this a valid key?
+    const isValidKey = steem.auth.isWif(wif);
+    if (isValidKey) {
+      // Determine the public key for this private key
+      const publicKey = steem.auth.wifToPublic(key);
+      if (password) {
+        // Encrypt the private key with the provided password
+        wif = CryptoJS.AES.encrypt(wif, password).toString();
+      }
+      // Save the keys within the wallet file
+      this.wallet.set({
+        // Record this as the current key for this type
+        [`accounts.${account}.current.${type}`]: wif,
+        // Add new key to keystore
+        [`accounts.${account}.keystore.${publicKey}`]: wif
+      });
+      // Broadcast the success event to react
+      event.sender.send('walletKeySetSuccessAction', account, type);
+    } else {
+      // Broadcast the success event to react
+      event.sender.send('walletKeySetFailAction', account, type, 'invalid_key');
+    }
+  }
   }
 }
 
