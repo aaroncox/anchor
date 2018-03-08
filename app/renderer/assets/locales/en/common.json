@@ -1,3 +1,5 @@
 {
-  "appname": "Anchor"
+  "appname": "Anchor",
+  "wallet_key_set_fail": "Failed saving {{keyType}} key for {{account}} [{{errorCode}}].",
+  "wallet_key_set_success": "Saved {{keyType}} key for {{account}} to wallet."
 }

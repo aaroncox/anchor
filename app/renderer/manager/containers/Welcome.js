@@ -22,7 +22,8 @@ class WelcomeContainer extends Component<Props> {
 
 function mapStateToProps(state) {
   return {
-    settings: state.settings
+    settings: state.settings,
+    wallet: state.wallet,
   };
 }
 

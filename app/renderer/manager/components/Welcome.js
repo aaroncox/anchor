@@ -8,7 +8,8 @@ type Props = {
   actions: {
     setPreference: () => void,
     setKey: () => void
-  }
+  },
+  wallet: {}
 };
 
 
@@ -93,6 +94,10 @@ export default class Welcome extends Component<Props> {
                   <Button>
                     Add
                   </Button>
+                  {(this.props.wallet.lastMessage)
+                    ? t(this.props.wallet.lastMessage.key, this.props.wallet.lastMessage.data)
+                    : ''
+                  }
                 </Form>
               </Segment>
             </div>

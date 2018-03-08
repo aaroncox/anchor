@@ -24,14 +24,27 @@ const configureStore = (initialState) => {
   const router = routerMiddleware(history);
   middleware.push(router);
 
-  function walletKeySetSuccessAction(event, arg1, arg2) {
+  function walletKeySetFailAction(event, account, keyType, errorCode) {
     return {
-      type: 'IPC_WALLET_KEY_SET',
-      arg1,
-      arg2
+      type: 'IPC_WALLET_KEY_SET_FAIL',
+      payload: {
+        account,
+        keyType,
+        errorCode
+      }
+    };
+  }
+  function walletKeySetSuccessAction(event, account, keyType) {
+    return {
+      type: 'IPC_WALLET_KEY_SET_SUCCESS',
+      payload: {
+        account,
+        keyType
+      }
     };
   }
   const ipc = createIpc({
+    walletKeySetFailAction,
     walletKeySetSuccessAction
   });
   middleware.push(ipc);
